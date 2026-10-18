@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'P22 Mackinac W01 Book', Georgia, serif;
+
+  /* One ink, one surface tint, one hairline, and a single "safety orange" accent
+     reserved for load, stress and status, as on a marked-up drawing. */
+  --color-ink: #191919;
+  --color-surface: #f6f6f5;
+  --color-line: #e6e6e4;
+  --color-accent: #e4572e;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Hero entrance ── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+.rise {
+  opacity: 0;
+  animation: rise .9s cubic-bezier(.22, 1, .36, 1) forwards;
+  animation-delay: var(--d, 0s);
+}
+
+/* ── Hero tower: grows from the ground, then sways gently under wind ── */
+@keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes sway { 0%, 100% { transform: skewX(-1.1deg); } 50% { transform: skewX(1.1deg); } }
+@keyframes wind { from { transform: translateX(0); opacity: .55; } to { transform: translateX(10px); opacity: 1; } }
+
+.tower-grow {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: grow 1.8s cubic-bezier(.22, 1, .36, 1) .5s both;
+}
+.tower-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: sway 7s ease-in-out 2.4s infinite;
+}
+.wind {
+  animation: wind 2.2s ease-in-out infinite alternate;
+  animation-delay: var(--d, 0s);
+}
+
+/* Faint drafting grid for dark blueprint panels */
+.blueprint {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise { animation: none; opacity: 1; }
+  .tower-grow, .tower-sway, .wind { animation: none; }
+}
